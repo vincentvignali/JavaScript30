@@ -59,6 +59,24 @@
 
 <script>
 
+function playSound(e) {
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+  if (!audio) return; //That will stop the function if there is no sound associated with the letter
+  audio.currentTime = 0; // That will rewind the current audio playing to 0.
+  audio.play();
+  key.classList.add('playing');
+}
+
+function removeTransition(e){
+  if (e.propertyName !== 'transform') return; //Skip if not a transformed
+  console.log(e.propertyName)
+  this.classList.remove('playing');
+}
+
+const keys = Array.from(document.querySelectorAll('.key'));
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+window.addEventListener('keydown', playSound);
 </script>
 
 
